@@ -1,4 +1,4 @@
-package com.stamenkovski.mktv
+package com.stamenkovski.mktv.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.stamenkovski.mktv.R
 import com.stamenkovski.mktv.models.PlayItem
-import com.stamenkovski.mktv.utils.C
+import com.stamenkovski.mktv.utils.M
 import com.stamenkovski.mktv.utils.GlideApp
 import com.stamenkovski.mktv.utils.GlideRequests
 import kotlinx.android.synthetic.main.playlist_item.view.*
 
 class PlaylistAdapter(var context: Context, var playlistItems: List<PlayItem>): RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
-    var inflater: LayoutInflater = LayoutInflater.from(context)
-    public var glideRequest = GlideApp.with(context)
+    private var inflater: LayoutInflater = LayoutInflater.from(context)
+    private var glideRequest = GlideApp.with(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = inflater.inflate(R.layout.playlist_item, parent, false)
-
         return ViewHolder(view, glideRequest)
     }
 
@@ -38,7 +38,7 @@ class PlaylistAdapter(var context: Context, var playlistItems: List<PlayItem>): 
             fun bind(item: PlayItem){
                 textViewChannelName?.text = item.name
                 glideRequest
-                    .load(C.IMAGE.URL + item.image)
+                    .load(M.IMAGE.URL + item.image)
                     .centerInside()
                     .into(imageViewChannel)
             }

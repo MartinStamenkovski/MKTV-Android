@@ -2,6 +2,8 @@ package com.stamenkovski.mktv.activities
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +11,7 @@ import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -16,12 +19,11 @@ import com.stamenkovski.mktv.extensions.makeErrorSnackbarWith
 import com.stamenkovski.mktv.R
 import com.stamenkovski.mktv.extensions.hidden
 import com.stamenkovski.mktv.extensions.visible
-import com.stamenkovski.mktv.utils.C
-import com.stamenkovski.mktv.utils.Logger
+import com.stamenkovski.mktv.utils.M
 import kotlinx.android.synthetic.main.activity_video.*
 
-
-class VideoActivity : AppCompatActivity(), Player.EventListener {
+class VideoActivity : AppCompatActivity(), Player.EventListener,
+    ScaleGestureDetector.OnScaleGestureListener {
 
     private lateinit var exoPlayerView: PlayerView
     private var player: SimpleExoPlayer? = null
@@ -30,19 +32,23 @@ class VideoActivity : AppCompatActivity(), Player.EventListener {
     private lateinit var streamURL: String
     private var shouldAutoPlay = true
 
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
         this.initUI()
 
         intent.extras?.let {
-            it.getString(C.STREAM.URL)?.run {
+            it.getString(M.STREAM.URL)?.run {
                 this@VideoActivity.streamURL = this
             }
         }
         savedInstanceState?.let {
-            this.shouldAutoPlay = it.getBoolean(C.STATE.AUTO_PLAY, true)
+            this.shouldAutoPlay = it.getBoolean(M.STATE.AUTO_PLAY, true)
         }
+
+        this.scaleGestureDetector = ScaleGestureDetector(this, this)
     }
 
     private fun initUI() {
@@ -74,15 +80,13 @@ class VideoActivity : AppCompatActivity(), Player.EventListener {
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         when(playbackState) {
-            Player.STATE_IDLE -> {
-            }
+            Player.STATE_IDLE -> {}
+            Player.STATE_ENDED -> {}
             Player.STATE_READY -> {
                 this.progressLoading.hidden()
             }
             Player.STATE_BUFFERING -> {
                 this.progressLoading.visible()
-            }
-            Player.STATE_ENDED -> {
             }
         }
     }
@@ -123,7 +127,31 @@ class VideoActivity : AppCompatActivity(), Player.EventListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(C.STATE.AUTO_PLAY, false)
+        outState.putBoolean(M.STATE.AUTO_PLAY, false)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        scaleGestureDetector.onTouchEvent(event)
+        return super.onTouchEvent(event)
+
+    }
+    override fun onScaleBegin(p0: ScaleGestureDetector?): Boolean {
+        return true
+    }
+
+    override fun onScaleEnd(p0: ScaleGestureDetector?) {
+    }
+
+    override fun onScale(detector: ScaleGestureDetector?): Boolean {
+        val scaleFactor = detector?.scaleFactor
+        scaleFactor?.let {
+            if (it > 1){
+                this.exoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+            } else {
+                this.exoPlayerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+            }
+        }
+        return true
     }
 
 }

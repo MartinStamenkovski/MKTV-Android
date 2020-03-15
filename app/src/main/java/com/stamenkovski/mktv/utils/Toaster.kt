@@ -1,6 +1,6 @@
 @file:JvmName("Toaster")
 
-package com.martin.retrofitwrapper
+package com.stamenkovski.mktv.utils
 
 import android.content.Context
 import android.view.Gravity

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.martin.retrofitwrapper.retrofit.onEnqueue
 import com.stamenkovski.mktv.extensions.makeErrorSnackbarWith
 import com.stamenkovski.mktv.models.PlayItem
-import com.stamenkovski.mktv.PlaylistAdapter
+import com.stamenkovski.mktv.adapters.PlaylistAdapter
 import com.stamenkovski.mktv.R
-import com.stamenkovski.mktv.utils.C
+import com.stamenkovski.mktv.utils.M
 import com.stamenkovski.mktv.utils.ItemClickSupport
 import com.stamenkovski.mktv.utils.retrofit.RT
 import kotlinx.android.synthetic.main.activity_playlist.*
@@ -54,7 +54,7 @@ class PlaylistActivity : AppCompatActivity() {
 
     private fun showVideoFor(stream: String) {
         val intent = Intent(this, VideoActivity::class.java);
-        intent.putExtra(C.STREAM.URL, stream)
+        intent.putExtra(M.STREAM.URL, stream)
         this.startActivity(intent)
     }
 }
