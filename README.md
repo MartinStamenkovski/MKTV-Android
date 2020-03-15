@@ -15,7 +15,7 @@ Because I know people who are watching TV on their phone and to do that they are
 ## iOS Version?
 I'm not sure, because it should be on the AppStore for most people and I don't want trouble with legal stuff for that :) 
 
-### Legal
+## Legal
 I don't own anything I'm just showing the content from [A1 Web TV](https://webtv.a1.mk/)
 
 ## License
