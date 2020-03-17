@@ -29,7 +29,7 @@ class VideoActivity : AppCompatActivity(), Player.EventListener,
     private var player: SimpleExoPlayer? = null
     private lateinit var progressLoading: ProgressBar
 
-    private lateinit var streamURL: String
+    private var streamURL: String? = null
     private var shouldAutoPlay = true
 
     private lateinit var scaleGestureDetector: ScaleGestureDetector
@@ -73,7 +73,9 @@ class VideoActivity : AppCompatActivity(), Player.EventListener,
     }
 
     override fun onPlayerError(error: ExoPlaybackException) {
+        this.progressLoading.hidden()
         this.makeErrorSnackbarWith("Video could not be loaded", exoPlayerView) {
+            this.progressLoading.visible()
             this.player?.retry()
         }
     }
@@ -103,7 +105,9 @@ class VideoActivity : AppCompatActivity(), Player.EventListener,
     override fun onResume() {
         super.onResume()
         this.hideSystemUi()
-        this.setupExoPlayerWith(streamURL)
+        this.streamURL?.run {
+            this@VideoActivity.setupExoPlayerWith(this)
+        }
     }
     override fun onPause() {
         super.onPause()
