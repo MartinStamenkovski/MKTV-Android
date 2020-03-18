@@ -3,6 +3,8 @@
 Watch IP TV channels on your Android device.   
 **You may need to use VPN for certain channels.**
 
+Current channels can be viewed [here](https://martinstamenkovski.github.io/TV-JSON/mk/tv.json). 
+
 You can download the apk file from [releases](https://github.com/MartinStamenkovski/MKTV-Android/releases).
 
 ## Why?
