@@ -17,4 +17,4 @@ I'm not sure, because it should be on the AppStore for most people and I don't w
 I don't own anything I'm just showing the content.
 
 ## License
-[MIT](https://github.com/MartinStamenkovski/MKTV-Android/blob/master/LICENSE)
+[GPL-3.0](https://github.com/MartinStamenkovski/MKTV-Android/blob/master/LICENSE)
